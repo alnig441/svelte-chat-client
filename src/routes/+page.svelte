@@ -26,7 +26,6 @@
 
       case 'message':
         if($collapsed) {
-          console.log('nissehue')
           alert.set(true);
         }
         break;
@@ -43,7 +42,7 @@
 
     log.push(entry);
     chatLog.set(log);
-    console.log($chatLog)
+    // console.log($chatLog)
   }
 
 </script>
