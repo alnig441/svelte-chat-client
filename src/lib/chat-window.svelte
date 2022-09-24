@@ -7,7 +7,8 @@
 <style>
   #chat-window {
     width: 100%;
-    max-height: 200px;
+    max-height: 225px;
+    /* max-height: 200px; */
     word-wrap: break-word;
     position: absolute;
     bottom: 25px;
