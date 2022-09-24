@@ -13,6 +13,8 @@ export const  chatLog = writable([]),
               animated = writable(false),
               socket = readable(io("http://localhost:3000")),
               disabled = writable(false),
+              collapsed = writable(false),
+              alert = writable(false),
               derivedLog = derived([chatLog, deviceWidth], ([$chatLog, $deviceWidth]) => {
                 if($chatLog.length > 2 && $deviceWidth <= 700){
                   const length = $chatLog.length;

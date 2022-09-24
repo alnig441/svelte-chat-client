@@ -1,5 +1,5 @@
 <script>
-  import { derivedLog, deviceWidth, animated, socket } from './stores';
+  import { derivedLog, deviceWidth, alert, animated, socket } from './stores';
   import { afterUpdate, beforeUpdate } from 'svelte';
 
   let lastEntry, animateThis, transitionHasEnded = false;
@@ -12,7 +12,7 @@
   })
 
   afterUpdate(() => {
-    if(lastEntry) {
+    if(lastEntry && !$alert) {
       lastEntry.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest'});
     }
     if(animateThis) {

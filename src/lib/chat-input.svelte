@@ -1,5 +1,5 @@
 <script>
-  import { chatLog, socket, disabled } from './stores';
+  import { chatLog, socket, disabled, collapsed } from './stores';
 
   let message;
 
@@ -21,9 +21,9 @@
   }
 </script>
 
-<div id="chat-input">
-  <input disabled={$disabled} bind:value={message} type="text" placeholder="enter message">
-  <input disabled={$disabled} type="button" value="send" on:click|preventDefault={onClick}>
+<div id="chat-input" class:collapsed={$collapsed}>
+  <input disabled={$disabled} bind:value={message} type="text" placeholder="enter message" class:collapsed={$collapsed}>
+  <input disabled={$disabled} type="button" value="send" on:click|preventDefault={onClick} class:collapsed={$collapsed}>
 </div>
 
 <svelte:window on:keyup|preventDefault={onKeyUp} />
@@ -40,6 +40,10 @@
     width: 100%;
   }
   input[type="text"] {
+  }
+
+  .collapsed {
+    display: none;
   }
 
   @media screen and (max-width: 700px) {

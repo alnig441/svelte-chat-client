@@ -1,8 +1,10 @@
 <script>
   import ChatEntry from "./chat-entry.svelte";
+  import { collapsed } from './stores'
+
 </script>
 
-<div id="chat-window"><ChatEntry /></div>
+<div id="chat-window" class:collapsed={$collapsed}><ChatEntry /></div>
 
 <style>
   #chat-window {
@@ -14,6 +16,10 @@
     bottom: 25px;
     flex-grow: 10;
     overflow: scroll;
+  }
+
+  .collapsed, .collapsed > input {
+    display: none;
   }
 
 </style>

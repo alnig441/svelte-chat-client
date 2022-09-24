@@ -2,7 +2,7 @@
   import ChatIndicator from "$lib/chat-indicator.svelte";;
   import ChatInput from "$lib/chat-input.svelte";
   import ChatWindow from "$lib/chat-window.svelte";
-  import { socket, chatLog, disabled, deviceWidth } from "$lib/stores";
+  import { socket, chatLog, disabled, deviceWidth, collapsed, alert } from "$lib/stores";
 
   let isConnected = false;
 
@@ -25,6 +25,10 @@
         break;
 
       case 'message':
+        if($collapsed) {
+          console.log('nissehue')
+          alert.set(true);
+        }
         break;
 
       case 'moderator left':
@@ -45,14 +49,14 @@
 </script>
 
 {#if isConnected}
-<div id="chat-client">
+<div id="chat-client" class:collapsed={$collapsed}>
   {#if $deviceWidth > 700}
     <ChatIndicator />
   {/if}
   <ChatWindow />
   <ChatInput />
 </div>
-{/if}
+{/if  }
 
 <style>
   #chat-client {
@@ -66,6 +70,10 @@
     border: 1px solid;
     border-radius: 3px;
     opacity: 1;
+  }
+
+  #chat-client.collapsed {
+    border: none;
   }
 
   @media screen and (max-width: 700px) {
