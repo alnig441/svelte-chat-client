@@ -1,13 +1,14 @@
 <script>
-  import { chatLog } from './stores';
+  import { chatLog, socket } from './stores';
 
   let message;
 
   function onClick(e) {
     if(message) {
       const log = $chatLog;
-      log.push({ type: 'message', isModerator: true, message: message });
+      log.push({ type: 'message', isModerator: false, message: message });
       chatLog.set(log);
+      $socket.emit('message', message);
       message = null  ;
     }
   }

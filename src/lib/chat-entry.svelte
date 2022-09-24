@@ -1,7 +1,7 @@
 <script>
-  import { derivedLog, deviceWidth, animated } from './stores';
+  import { derivedLog, deviceWidth, animated, socket } from './stores';
   import { afterUpdate, beforeUpdate } from 'svelte';
-  import { fade } from 'svelte/transition';
+
   let lastEntry, animateThis, transitionHasEnded = false;
 
   beforeUpdate(() => {
@@ -29,19 +29,19 @@
 {#if $derivedLog.length > 0}
   {#each $derivedLog as entry, i }
     {#if ($derivedLog.length === 2 && $deviceWidth <= 700 && i === 0)}
-      <div class='chat-entry' bind:this={animateThis} class:animated={$animated} class:moderator={entry.isModerator} class:client={!entry.isModerator} on:transitionend|preventDefault={onTransitionEnd}>
+      <div class='chat-entry' bind:this={animateThis} class:animated={$animated} class:moderator={entry.isModerator && !entry.isInfo} class:client={!entry.isModerator && !entry.isInfo} on:transitionend|preventDefault={onTransitionEnd}>
         {#if i === $derivedLog.length -1}
-          <p bind:this={lastEntry} class:moderator={entry.isModerator} class:client={!entry.isModerator}>{entry.message}</p>
+          <p bind:this={lastEntry} class:info={entry.isInfo} >{entry.message}</p>
         {:else}
-          <p class:moderator={entry.isModerator} class:client={!entry.isModerator}>{entry.message}</p>
+          <p class:info={entry.isInfo}>{entry.message}</p>
         {/if}
       </div>
     {:else}
-      <div class="chat-entry" class:moderator={entry.isModerator} class:client={!entry.isModerator}>
+      <div class="chat-entry" class:moderator={entry.isModerator && !entry.isInfo} class:client={!entry.isModerator && !entry.isInfo}>
         {#if i === $derivedLog.length - 1}
-          <p bind:this={lastEntry} class:moderator={entry.isModerator} class:client={!entry.isModerator}>{entry.message}</p>
+          <p bind:this={lastEntry} class:info={entry.isInfo} >{entry.message}</p>
         {:else}
-          <p class:moderator={entry.isModerator} class:client={!entry.isModerator}>{entry.message}</p>
+          <p class:info={entry.isInfo}>{entry.message}</p>
         {/if}
       </div>
     {/if}
@@ -62,14 +62,13 @@
 
   .client > p {
     background-color: #9F8CAD;
-    border-radius: 5px 5px 5px 0px ;
+    border-radius: 10px 10px 10px 0px ;
     opacity: 0.9;
   }
 
   p {
     margin: 2px 5px;
     padding: 3px;
-
   }
 
   .moderator {
@@ -79,7 +78,14 @@
   .moderator > p {
     float: right;
     background-color: #9BAD8C;
-    border-radius: 5px 0px 5px 5px ;
+    border-radius: 10px 0px 10px 10px ;
+    opacity: 0.9;
+  }
+
+  .info {
+    background-color: white;
+    text-align:center;
+    border-radius: 10px;
     opacity: 0.9;
   }
 

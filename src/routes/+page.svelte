@@ -2,12 +2,48 @@
   import ChatIndicator from "$lib/chat-indicator.svelte";;
   import ChatInput from "$lib/chat-input.svelte";
   import ChatWindow from "$lib/chat-window.svelte";
-  import {deviceWidth} from "$lib/stores";
+  import { socket, chatLog } from "$lib/stores";
+
+  let isConnected = false;
+
+  $socket.onAny(handleSocketEvent);
+
+  function handleSocketEvent(event, message) {
+    const entry = { isInfo: false, isModerator: true, message: message};
+    const log = $chatLog;
+
+    switch(event){
+      case 'welcome':
+        if(!isConnected) {
+          isConnected = true;
+        }
+        else {
+          entry.isInfo = true;
+          entry.message = 'moderator rejoined';
+        }
+        break;
+
+      case 'message':
+        break;
+
+      case 'moderator left':
+        entry.isInfo = true;
+        break;
+
+      default:
+        console.log(`unknown event: "${event}" \nmessage: "${message}"`);
+        break;
+    }
+
+    log.push(entry);
+    chatLog.set(log);
+    console.log($chatLog)
+  }
 
 </script>
 
 <div id="chat-client">
-  <ChatIndicator />
+  <!-- <ChatIndicator /> -->
   <ChatWindow />
   <ChatInput />
 </div>
