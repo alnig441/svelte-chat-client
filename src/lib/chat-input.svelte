@@ -1,5 +1,5 @@
 <script>
-  import { chatLog, socket } from './stores';
+  import { chatLog, socket, disabled } from './stores';
 
   let message;
 
@@ -22,8 +22,8 @@
 </script>
 
 <div id="chat-input">
-  <input bind:value={message} type="text" placeholder="enter message">
-  <input type="button" value="send" on:click|preventDefault={onClick}>
+  <input disabled={$disabled} bind:value={message} type="text" placeholder="enter message">
+  <input disabled={$disabled} type="button" value="send" on:click|preventDefault={onClick}>
 </div>
 
 <svelte:window on:keyup|preventDefault={onKeyUp} />

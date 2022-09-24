@@ -2,7 +2,7 @@
   import ChatIndicator from "$lib/chat-indicator.svelte";;
   import ChatInput from "$lib/chat-input.svelte";
   import ChatWindow from "$lib/chat-window.svelte";
-  import { socket, chatLog } from "$lib/stores";
+  import { socket, chatLog, disabled, deviceWidth } from "$lib/stores";
 
   let isConnected = false;
 
@@ -20,6 +20,7 @@
         else {
           entry.isInfo = true;
           entry.message = 'moderator rejoined';
+          disabled.set(false);
         }
         break;
 
@@ -28,6 +29,7 @@
 
       case 'moderator left':
         entry.isInfo = true;
+        disabled.set(true);
         break;
 
       default:
@@ -42,11 +44,15 @@
 
 </script>
 
+{#if isConnected}
 <div id="chat-client">
-  <!-- <ChatIndicator /> -->
+  {#if $deviceWidth > 700}
+    <ChatIndicator />
+  {/if}
   <ChatWindow />
   <ChatInput />
 </div>
+{/if}
 
 <style>
   #chat-client {
