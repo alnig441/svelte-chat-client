@@ -11,7 +11,7 @@ if(browser) {
 export const  chatLog = writable([]),
               deviceWidth = readable(innerWidth),
               animated = writable(false),
-              socket = readable(io("http://localhost:3000")),
+              socket = readable(io("http://allan-nielsen-chat-app.herokuapp.com")),
               disabled = writable(false),
               collapsed = writable(false),
               alert = writable(false),
